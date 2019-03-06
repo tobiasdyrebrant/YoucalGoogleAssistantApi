@@ -4,9 +4,15 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Google.Cloud.Dialogflow.V2;
+using Google.Protobuf;
+using System.IO;
+using System.Threading.Tasks;
+
 
 namespace YoucalGoogleAssistantApi.Controllers
 {
+    [RoutePrefix("Api")]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -34,6 +40,14 @@ namespace YoucalGoogleAssistantApi.Controllers
         // DELETE api/values/5
         public void Delete(int id)
         {
+        }
+
+        [Route("Test")]
+        [HttpPost]
+        public async Task<IHttpActionResult> Index()
+        {
+           var response = new WebhookRequest();
+            return Ok("hej");
         }
     }
 }
