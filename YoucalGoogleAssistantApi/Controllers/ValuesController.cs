@@ -50,7 +50,7 @@ namespace YoucalGoogleAssistantApi.Controllers
         [HttpPost]
         public async Task<IHttpActionResult> Index() {
 
-            dynamic test = "{'fulfillmentText': 'This is a text response'}";
+            dynamic test = "{\"fulfillmentText\": null,\"fulfillmentMessages\": [{\"card\": null,\"text\": {\"text\": [\"There is no weather in Denver\"]}}],\"source\": null,\"payload\": null,\"outputContexts\": null,\"followupEventInput\": null}";
             string json = JsonConvert.SerializeObject(test);
 
             return Ok(json);
