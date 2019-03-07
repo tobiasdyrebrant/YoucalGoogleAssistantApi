@@ -49,11 +49,7 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("Test")]
         [HttpPost]
         public async Task<IHttpActionResult> Index() {
-
-            dynamic test = "{\"fulfillmentText\": null,\"fulfillmentMessages\": [{\"card\": null,\"text\": {\"text\": [\"There is no weather in Denver\"]}}],\"source\": null,\"payload\": null,\"outputContexts\": null,\"followupEventInput\": null}";
-            string json = JsonConvert.SerializeObject(test);
-
-            return Ok(json);
+            return Ok("hej");
         }
     }
 }
