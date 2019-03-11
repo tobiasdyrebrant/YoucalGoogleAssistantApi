@@ -49,7 +49,7 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("Test")]
         [HttpPost]
         public async Task<IHttpActionResult> Index() {
-            return Ok("hejdå");
+            return Ok("hej igen");
         }
     }
 }
