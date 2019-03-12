@@ -49,7 +49,9 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("Test")]
         [HttpPost]
         public async Task<IHttpActionResult> Index() {
-            return Ok("hejdå");
+            var billy = "nbabasket";
+            var alex = "aws";
+            return Ok(billy + alex);
         }
     }
 }
