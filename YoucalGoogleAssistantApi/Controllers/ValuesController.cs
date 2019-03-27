@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-//using System.Web.Http;
+using System.Web.Http;
 using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
 using System.IO;
@@ -14,12 +14,12 @@ using Microsoft.Ajax.Utilities;
 using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Newtonsoft.Json;
 using System.Web.Http.Results;
-using System.Web.Mvc;
+//using System.Web.Mvc;
 
 namespace YoucalGoogleAssistantApi.Controllers
 {
     [RoutePrefix("Api")]
-    public class ValuesController : System.Web.Http.ApiController
+    public class ValuesController : ApiController
     {
         // GET api/values
         public IEnumerable<string> Get()
@@ -34,8 +34,8 @@ namespace YoucalGoogleAssistantApi.Controllers
         }
 
         // POST api/values
-        [Route("post")]
         [HttpPost]
+        [Route("post")]
         public dynamic Post([System.Web.Http.FromBody]WebhookRequest value)
         {
             var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
@@ -95,7 +95,7 @@ namespace YoucalGoogleAssistantApi.Controllers
             //var interimObject = JsonConvert.DeserializeObject<WebhookResponse>(json);
             //var myJsonOutput = JsonConvert.SerializeObject(interimObject, JsonSerializerSettings);
             //res.OutputContexts = new StringContent(myJsonOutput, )
-            return new ContentResult { Content = obj, ContentType = "application/json" }; //returnerar webhookresponsen
+            return new System.Web.Mvc.ContentResult { Content = obj, ContentType = "application/json" }; //returnerar webhookresponsen
         }
 
         // PUT api/values/5
