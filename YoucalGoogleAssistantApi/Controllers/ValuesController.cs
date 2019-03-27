@@ -8,6 +8,7 @@ using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web.Script;
 using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Build.Tasks.Deployment.Bootstrapper;
@@ -77,7 +78,7 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("Test")]
         [HttpPost]
         public async Task<IHttpActionResult> Index() {
-            return Ok("hej igen");
+            return Ok("Json github push");
         }
     }
 }
