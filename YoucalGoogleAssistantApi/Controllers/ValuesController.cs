@@ -8,6 +8,7 @@ using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web.Script;
 using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Build.Tasks.Deployment.Bootstrapper;
@@ -32,8 +33,36 @@ namespace YoucalGoogleAssistantApi.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public WebhookResponse Post([FromBody]WebhookRequest value)
         {
+            var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
+            var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
+            var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
+            
+            WebhookResponse r = new WebhookResponse //skapar en ny webhookrespons med tillhörande textsvar, 
+            {
+                FulfillmentText = testAnswer,
+                FulfillmentMessages =
+                {
+                    new Intent.Types.Message
+                    {
+                        SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
+                        {
+                            SimpleResponses_=
+                            {
+                                new Intent.Types.Message.Types.SimpleResponse
+                                {
+                                    DisplayText = testAnswer,
+                                    TextToSpeech = testAnswer
+                                }
+                            }
+                        }
+                    }
+                },
+                Source = "Dialogflow" //skriver ut vart sourcen kommer ifrån
+            };
+
+            return r; //returnerar webhookresponsen
         }
 
         // PUT api/values/5
@@ -49,9 +78,7 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("Test")]
         [HttpPost]
         public async Task<IHttpActionResult> Index() {
-            var billy = "nbabasket";
-            var alex = "aws";
-            return Ok(billy + alex);
+            return Ok("Json github push");
         }
     }
 }
