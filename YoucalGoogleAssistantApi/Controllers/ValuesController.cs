@@ -34,7 +34,7 @@ namespace YoucalGoogleAssistantApi.Controllers
 
         // POST api/values
         [Route("post")]
-        public IHttpActionResult Post([FromBody]WebhookRequest value)
+        public WebhookResponse Post([FromBody]WebhookRequest value)
         {
             var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
             var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
@@ -63,7 +63,26 @@ namespace YoucalGoogleAssistantApi.Controllers
                 Source = "Dialogflow" //skriver ut vart sourcen kommer ifrån
             };
             var obj = JsonConvert.SerializeObject(r);
-            return Ok(obj); //returnerar webhookresponsen
+
+            var message = new Intent.Types.Message
+            {
+                Card = new Intent.Types.Message.Types.Card
+                {
+                    Title = "Hej",
+
+                }
+            };
+
+            return new WebhookResponse
+            {
+                FulfillmentMessages =
+                {
+                    message
+                },
+                FulfillmentText = value.QueryResult.FulfillmentText, Source = ""
+
+
+            }; //returnerar webhookresponsen
         }
 
         // PUT api/values/5
