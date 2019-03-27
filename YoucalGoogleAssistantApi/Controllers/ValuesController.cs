@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
+//using System.Web.Http;
 using Google.Cloud.Dialogflow.V2;
 using Google.Protobuf;
 using System.IO;
@@ -14,11 +14,12 @@ using Microsoft.Ajax.Utilities;
 using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Newtonsoft.Json;
 using System.Web.Http.Results;
+using System.Web.Mvc;
 
 namespace YoucalGoogleAssistantApi.Controllers
 {
     [RoutePrefix("Api")]
-    public class ValuesController : ApiController
+    public class ValuesController : System.Web.Http.ApiController
     {
         // GET api/values
         public IEnumerable<string> Get()
@@ -34,11 +35,13 @@ namespace YoucalGoogleAssistantApi.Controllers
 
         // POST api/values
         [Route("post")]
-        public WebhookResponse Post([FromBody]WebhookRequest value)
+        [HttpPost]
+        public dynamic Post([System.Web.Http.FromBody]WebhookRequest value)
         {
             var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
             var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
             var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
+            var parameters = value.QueryResult.Parameters;
             
             WebhookResponse r = new WebhookResponse //skapar en ny webhookrespons med tillhörande textsvar, 
             {
@@ -54,7 +57,7 @@ namespace YoucalGoogleAssistantApi.Controllers
                                 new Intent.Types.Message.Types.SimpleResponse
                                 {
                                     DisplayText = testAnswer,
-                                    TextToSpeech = testAnswer
+                                    TextToSpeech = testAnswer,
                                 }
                             }
                         }
@@ -62,43 +65,53 @@ namespace YoucalGoogleAssistantApi.Controllers
                 },
                 Source = "Dialogflow" //skriver ut vart sourcen kommer ifrån
             };
-            var obj = JsonConvert.SerializeObject(r);
+            var obj = r.ToString();
 
-            var message = new Intent.Types.Message
-            {
-                Card = new Intent.Types.Message.Types.Card
-                {
-                    Title = "Hej",
+            //var message = new Intent.Types.Message
+            //{
+            //    Card = new Intent.Types.Message.Types.Card
+            //    {
+            //        Title = "Hej",
 
-                }
-            };
+            //    }
+            //};
+            //var JsonSerializerSettings = new JsonSerializerSettings
+            //{
+            //    ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            //};
+            //var res = new WebhookResponse
+            //{
+            //    FulfillmentMessages =
+            //    {
+            //        message
+            //    },
+            //    FulfillmentText = value.QueryResult.FulfillmentText,
+            //    Source = ""
 
-            return new WebhookResponse
-            {
-                FulfillmentMessages =
-                {
-                    message
-                },
-                FulfillmentText = value.QueryResult.FulfillmentText, Source = ""
 
+            //};
 
-            }; //returnerar webhookresponsen
+            //var json = JsonConvert.SerializeObject(res);
+            //var interimObject = JsonConvert.DeserializeObject<WebhookResponse>(json);
+            //var myJsonOutput = JsonConvert.SerializeObject(interimObject, JsonSerializerSettings);
+            //res.OutputContexts = new StringContent(myJsonOutput, )
+            return new ContentResult { Content = obj, ContentType = "application/json" }; //returnerar webhookresponsen
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
+        //public void Put(int id, [FromBody]string value)
+        //{
+        //}
 
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
+        //// DELETE api/values/5
+        //public void Delete(int id)
+        //{
+        //}
 
-        [Route("Test")]
-        [HttpPost]
-        public async Task<IHttpActionResult> Index() {
-            return Ok("Json github push");
-        }
+        //[Route("Test")]
+        //[HttpPost]
+        //public async Task<IHttpActionResult> Index() {
+        //    return Ok("Json github push");
+        //}
     }
 }
