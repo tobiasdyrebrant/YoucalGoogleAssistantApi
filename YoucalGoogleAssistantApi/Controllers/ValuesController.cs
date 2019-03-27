@@ -13,7 +13,7 @@ using System.Web.Script.Serialization;
 using Microsoft.Ajax.Utilities;
 using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Newtonsoft.Json;
-
+using System.Web.Http.Results;
 
 namespace YoucalGoogleAssistantApi.Controllers
 {
@@ -33,7 +33,8 @@ namespace YoucalGoogleAssistantApi.Controllers
         }
 
         // POST api/values
-        public WebhookResponse Post([FromBody]WebhookRequest value)
+        [Route("post")]
+        public IHttpActionResult Post([FromBody]WebhookRequest value)
         {
             var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
             var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
@@ -61,8 +62,8 @@ namespace YoucalGoogleAssistantApi.Controllers
                 },
                 Source = "Dialogflow" //skriver ut vart sourcen kommer ifrån
             };
-
-            return r; //returnerar webhookresponsen
+            var obj = JsonConvert.SerializeObject(r);
+            return Ok(obj); //returnerar webhookresponsen
         }
 
         // PUT api/values/5
