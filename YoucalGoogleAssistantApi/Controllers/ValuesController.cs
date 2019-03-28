@@ -38,34 +38,36 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("post")]
         public dynamic Post([System.Web.Http.FromBody]WebhookRequest value)
         {
-            var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
-            var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
-            var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
-            var parameters = value.QueryResult.Parameters;
-            
-            WebhookResponse r = new WebhookResponse //skapar en ny webhookrespons med tillhörande textsvar, 
-            {
-                FulfillmentText = testAnswer,
-                FulfillmentMessages =
-                {
-                    new Intent.Types.Message
-                    {
-                        SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
-                        {
-                            SimpleResponses_=
-                            {
-                                new Intent.Types.Message.Types.SimpleResponse
-                                {
-                                    DisplayText = testAnswer,
-                                    TextToSpeech = testAnswer,
-                                }
-                            }
-                        }
-                    }
-                },
-                Source = "Dialogflow" //skriver ut vart sourcen kommer ifrån
-            };
-            var obj = r.ToString();
+            //var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
+            //var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
+            //var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
+            //var parameters = value.QueryResult.Parameters;
+
+
+            //WebhookResponse r = new WebhookResponse //skapar en ny webhookrespons med tillhörande textsvar, 
+            //{
+            //    FulfillmentText = testAnswer,
+            //    FulfillmentMessages =
+            //    {
+            //        new Intent.Types.Message
+            //        {
+            //            SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
+            //            {
+            //                SimpleResponses_=
+            //                {
+            //                    new Intent.Types.Message.Types.SimpleResponse
+            //                    {
+            //                        DisplayText = testAnswer,
+            //                        TextToSpeech = testAnswer,
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    },
+            //    Source = "Dialogflow", //skriver ut vart sourcen kommer ifrån
+
+            //};
+            //var obj = r.ToString();
 
             //var message = new Intent.Types.Message
             //{
@@ -95,7 +97,12 @@ namespace YoucalGoogleAssistantApi.Controllers
             //var interimObject = JsonConvert.DeserializeObject<WebhookResponse>(json);
             //var myJsonOutput = JsonConvert.SerializeObject(interimObject, JsonSerializerSettings);
             //res.OutputContexts = new StringContent(myJsonOutput, )
-            return new System.Web.Mvc.ContentResult { Content = obj, ContentType = "application/json" }; //returnerar webhookresponsen
+            var response = new WebhookResponse
+            {
+                FulfillmentText = "hhejsan"
+            };
+            var json = JsonConvert.SerializeObject(response);
+            return json; //returnerar webhookresponsen
         }
 
         // PUT api/values/5
