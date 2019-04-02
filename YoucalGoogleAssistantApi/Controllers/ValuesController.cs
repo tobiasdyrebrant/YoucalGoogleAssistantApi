@@ -14,6 +14,7 @@ using Microsoft.Ajax.Utilities;
 using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Newtonsoft.Json;
 using System.Web.Http.Results;
+using Newtonsoft.Json.Linq;
 //using System.Web.Mvc;
 
 namespace YoucalGoogleAssistantApi.Controllers
@@ -38,10 +39,10 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("post")]
         public dynamic Post([System.Web.Http.FromBody]WebhookRequest value)
         {
-            //var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
-            //var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
-            //var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
-            //var parameters = value.QueryResult.Parameters;
+            var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
+            var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
+            var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
+            var parameters = value.QueryResult.Parameters;
 
 
             //WebhookResponse r = new WebhookResponse //skapar en ny webhookrespons med tillhörande textsvar, 
