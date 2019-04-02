@@ -99,10 +99,28 @@ namespace YoucalGoogleAssistantApi.Controllers
             //res.OutputContexts = new StringContent(myJsonOutput, )
             var response = new WebhookResponse
             {
-                FulfillmentText = "hhejsan"
+                FulfillmentText = "hejsan",
+                FulfillmentMessages =
+                {
+                    new Intent.Types.Message
+                    {
+                        SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
+                        {
+                            SimpleResponses_=
+                            {
+                                new Intent.Types.Message.Types.SimpleResponse
+                                {
+                                    DisplayText = "hejsan",
+                                    TextToSpeech = "hej",
+                                    //ssml = $"<speak> {variabel} </speak>
+                                }
+                            }
+                        }
+                    }
+                }
             };
-            var json = JsonConvert.SerializeObject(response);
-            return json; //returnerar webhookresponsen
+            var json = response.ToString();
+            return new Microsoft.AspNetCore.Mvc.ContentResult { Content = json, ContentType = "application/json"}; //returnerar webhookresponsen
         }
 
         // PUT api/values/5
