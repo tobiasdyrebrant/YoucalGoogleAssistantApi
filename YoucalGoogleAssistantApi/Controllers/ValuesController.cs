@@ -15,6 +15,7 @@ using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Newtonsoft.Json;
 using System.Web.Http.Results;
 using Newtonsoft.Json.Linq;
+
 //using System.Web.Mvc;
 
 namespace YoucalGoogleAssistantApi.Controllers
@@ -98,7 +99,7 @@ namespace YoucalGoogleAssistantApi.Controllers
             //var interimObject = JsonConvert.DeserializeObject<WebhookResponse>(json);
             //var myJsonOutput = JsonConvert.SerializeObject(interimObject, JsonSerializerSettings);
             //res.OutputContexts = new StringContent(myJsonOutput, )
-            var response = new WebhookResponse
+            var dialogflowResponse = new WebhookResponse
             {
                 FulfillmentText = "hejsan",
                 FulfillmentMessages =
@@ -113,16 +114,56 @@ namespace YoucalGoogleAssistantApi.Controllers
                                 {
                                     DisplayText = "hejsan",
                                     TextToSpeech = "hej",
-                                    //ssml = $"<speak> {variabel} </speak>
+
                                 }
                             }
                         }
                     }
-                }
+                },
+                Source = "Dialogflow",
+                //Payload =
+                //{
+                //    Fields =
+                //    {
+                //        Google =
+                //        {
+                //            ExpectUserResponse = true
+                //        }
+                //    }
+                //},
+                //OutputContexts =
+                //{
+                //   new Google.Cloud.Dialogflow.V2.Context
+                //   {
+                //       Name ="projects/${PROJECT_ID}/agent/sessions/${ SESSION_ID }/ contexts / context name",
+                //       LifespanCount = 4,
+                //       Parameters = value.QueryResult.Parameters
+                //   }
+                //},
+                //FollowupEventInput =
+                //{
+                //    Name = null,
+                //    LanguageCode = "en-US",
+                //    Parameters = null
+                //}
+
+
             };
-            var json = response.ToString();
-            return new Microsoft.AspNetCore.Mvc.ContentResult { Content = json, ContentType = "application/json"}; //returnerar webhookresponsen
+
+            var jsonResponse = dialogflowResponse.ToString();
+            jsonResponse.ToLower();
+
+            return Json(new
+            {
+
+                fulfillmentText = "Is this for real?!?!?!",
+                source = "Dialogflow",
+
+
+            });
+            /*return new Microsoft.AspNetCore.Mvc.ContentResult { Content = jsonResponse, ContentType = "application/json"};*/ //returnerar webhookresponsen
         }
+        
 
         // PUT api/values/5
         //public void Put(int id, [FromBody]string value)
