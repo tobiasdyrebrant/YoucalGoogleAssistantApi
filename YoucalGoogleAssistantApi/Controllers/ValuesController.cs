@@ -15,7 +15,7 @@ using Microsoft.Build.Tasks.Deployment.Bootstrapper;
 using Newtonsoft.Json;
 using System.Web.Http.Results;
 using Newtonsoft.Json.Linq;
-//using Microsoft.AspNetCore.Mvc;
+
 //using System.Web.Mvc;
 
 namespace YoucalGoogleAssistantApi.Controllers
@@ -36,120 +36,134 @@ namespace YoucalGoogleAssistantApi.Controllers
         }
 
         // POST api/values
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         [Route("post")]
         public dynamic Post([System.Web.Http.FromBody]WebhookRequest value)
         {
-            var intentName =value.QueryResult.Intent.DisplayName;
-            var actualQuestion = value.QueryResult.QueryText;
-            var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'";
+            var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
+            var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
+            var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
+            var parameters = value.QueryResult.Parameters;
+
+
+            //WebhookResponse r = new WebhookResponse //skapar en ny webhookrespons med tillhörande textsvar, 
+            //{
+            //    FulfillmentText = testAnswer,
+            //    FulfillmentMessages =
+            //    {
+            //        new Intent.Types.Message
+            //        {
+            //            SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
+            //            {
+            //                SimpleResponses_=
+            //                {
+            //                    new Intent.Types.Message.Types.SimpleResponse
+            //                    {
+            //                        DisplayText = testAnswer,
+            //                        TextToSpeech = testAnswer,
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    },
+            //    Source = "Dialogflow", //skriver ut vart sourcen kommer ifrån
+
+            //};
+            //var obj = r.ToString();
+
+            //var message = new Intent.Types.Message
+            //{
+            //    Card = new Intent.Types.Message.Types.Card
+            //    {
+            //        Title = "Hej",
+
+            //    }
+            //};
+            //var JsonSerializerSettings = new JsonSerializerSettings
+            //{
+            //    ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            //};
+            //var res = new WebhookResponse
+            //{
+            //    FulfillmentMessages =
+            //    {
+            //        message
+            //    },
+            //    FulfillmentText = value.QueryResult.FulfillmentText,
+            //    Source = ""
+
+
+            //};
+
+            //var json = JsonConvert.SerializeObject(res);
+            //var interimObject = JsonConvert.DeserializeObject<WebhookResponse>(json);
+            //var myJsonOutput = JsonConvert.SerializeObject(interimObject, JsonSerializerSettings);
+            //res.OutputContexts = new StringContent(myJsonOutput, )
             var dialogflowResponse = new WebhookResponse
             {
-                FulfillmentText = testAnswer,
+                FulfillmentText = "hejsan",
                 FulfillmentMessages =
-                { new Intent.Types.Message
-                    { SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
-                        { SimpleResponses_ =
-                            { new Intent.Types.Message.Types.SimpleResponse
+                {
+                    new Intent.Types.Message
+                    {
+                        SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
+                        {
+                            SimpleResponses_=
+                            {
+                                new Intent.Types.Message.Types.SimpleResponse
                                 {
-                                   DisplayText = testAnswer,
-                                   TextToSpeech = testAnswer,
-                                   //Ssml = $"<speak>{testAnswer}</speak>"
+                                    DisplayText = "hejsan",
+                                    TextToSpeech = "hej",
+
                                 }
                             }
                         }
                     }
-            }
+                },
+                Source = "Dialogflow",
+                //Payload =
+                //{
+                //    Fields =
+                //    {
+                //        Google =
+                //        {
+                //            ExpectUserResponse = true
+                //        }
+                //    }
+                //},
+                //OutputContexts =
+                //{
+                //   new Google.Cloud.Dialogflow.V2.Context
+                //   {
+                //       Name ="projects/${PROJECT_ID}/agent/sessions/${ SESSION_ID }/ contexts / context name",
+                //       LifespanCount = 4,
+                //       Parameters = value.QueryResult.Parameters
+                //   }
+                //},
+                //FollowupEventInput =
+                //{
+                //    Name = null,
+                //    LanguageCode = "en-US",
+                //    Parameters = null
+                //}
+
+
             };
-            var parsad = WebhookResponse.Parser.ParseJson(dialogflowResponse.ToString());
-            
-            return new  Microsoft.AspNetCore.Mvc.ContentResult { Content = parsad.ToString(), ContentType = "application/json" }; ;
+
+            var jsonResponse = dialogflowResponse.ToString();
+            jsonResponse.ToLower();
+
+            return Json(new
+            {
+
+                fulfillmentText = "Is this for real?!?!?!",
+                source = "Dialogflow",
+
+
+            });
+            /*return new Microsoft.AspNetCore.Mvc.ContentResult { Content = jsonResponse, ContentType = "application/json"};*/ //returnerar webhookresponsen
         }
-        //var intentName = value.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
-        //var actualQuestion = value.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
-        //var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
-        //var parameters = value.QueryResult.Parameters;
-
-
-        //WebhookResponse r = new WebhookResponse //skapar en ny webhookrespons med tillhörande textsvar, 
-        //{
-        //    FulfillmentText = testAnswer,
-        //    FulfillmentMessages =
-        //    {
-        //        new Intent.Types.Message
-        //        {
-        //            SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
-        //            {
-        //                SimpleResponses_=
-        //                {
-        //                    new Intent.Types.Message.Types.SimpleResponse
-        //                    {
-        //                        DisplayText = testAnswer,
-        //                        TextToSpeech = testAnswer,
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    },
-        //    Source = "Dialogflow", //skriver ut vart sourcen kommer ifrån
-
-        //};
-        //var obj = r.ToString();
-
-        //var message = new Intent.Types.Message
-        //{
-        //    Card = new Intent.Types.Message.Types.Card
-        //    {
-        //        Title = "Hej",
-
-        //    }
-        //};
-        //var JsonSerializerSettings = new JsonSerializerSettings
-        //{
-        //    ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
-        //};
-        //var res = new WebhookResponse
-        //{
-        //    FulfillmentMessages =
-        //    {
-        //        message
-        //    },
-        //    FulfillmentText = value.QueryResult.FulfillmentText,
-        //    Source = ""
-
-
-        //};
-
-        //var json = JsonConvert.SerializeObject(res);
-        //var interimObject = JsonConvert.DeserializeObject<WebhookResponse>(json);
-        //var myJsonOutput = JsonConvert.SerializeObject(interimObject, JsonSerializerSettings);
-        //res.OutputContexts = new StringContent(myJsonOutput, )
-        //var response = new WebhookResponse
-        //{
-        //    FulfillmentText = "hejsan",
-        //    FulfillmentMessages =
-        //    {
-        //        new Intent.Types.Message
-        //        {
-        //            SimpleResponses = new Intent.Types.Message.Types.SimpleResponses
-        //            {
-        //                SimpleResponses_=
-        //                {
-        //                    new Intent.Types.Message.Types.SimpleResponse
-        //                    {
-        //                        DisplayText = "hejsan",
-        //                        TextToSpeech = "hej",
-        //                        //ssml = $"<speak> {variabel} </speak>
-        //                    }
-        //                }
-        //            }
-        //        }
-        //    }
-        //};
-        //var json = response.ToString();
-        //Json(json);
-        //return new Microsoft.AspNetCore.Mvc.ContentResult { Content = json1 , ContentType = "application/json", }; //returnerar webhookresponsen
-    }
+        
 
         // PUT api/values/5
         //public void Put(int id, [FromBody]string value)
@@ -167,4 +181,4 @@ namespace YoucalGoogleAssistantApi.Controllers
         //    return Ok("Json github push");
         //}
     }
-
+}
