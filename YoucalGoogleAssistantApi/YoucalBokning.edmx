@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="YoucalBokning.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="YoucalBokningStoreContainer">
+    <EntitySet Name="BookingSet" EntityType="YoucalBokning.Store.BookingSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CompanySet" EntityType="YoucalBokning.Store.CompanySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProvidesSet" EntityType="YoucalBokning.Store.ProvidesSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ServicesSet" EntityType="YoucalBokning.Store.ServicesSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="BookingCompany" Association="YoucalBokning.Store.BookingCompany">
+      <End Role="Booking" EntitySet="BookingSet" />
+      <End Role="Company" EntitySet="CompanySet" />
+    </AssociationSet>
+    <AssociationSet Name="CompanyProvides" Association="YoucalBokning.Store.CompanyProvides">
+      <End Role="Company" EntitySet="CompanySet" />
+      <End Role="Provides" EntitySet="ProvidesSet" />
+    </AssociationSet>
+    <AssociationSet Name="ServicesProvides" Association="YoucalBokning.Store.ServicesProvides">
+      <End Role="Services" EntitySet="ServicesSet" />
+      <End Role="Provides" EntitySet="ProvidesSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BookingSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UserPhone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Subject" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EndTime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Price" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Company_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CompanySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Adress" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProvidesSet">
+    <Key>
+      <PropertyRef Name="CompanyId" />
+      <PropertyRef Name="ServicesId" />
+    </Key>
+    <Property Name="CompanyId" Type="int" Nullable="false" />
+    <Property Name="ServicesId" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ServicesSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="BookingCompany">
+    <End Role="Booking" Type="YoucalBokning.Store.BookingSet" Multiplicity="*" />
+    <End Role="Company" Type="YoucalBokning.Store.CompanySet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Booking">
+        <PropertyRef Name="Company_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CompanyProvides">
+    <End Role="Company" Type="YoucalBokning.Store.CompanySet" Multiplicity="1" />
+    <End Role="Provides" Type="YoucalBokning.Store.ProvidesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Company">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Provides">
+        <PropertyRef Name="CompanyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ServicesProvides">
+    <End Role="Services" Type="YoucalBokning.Store.ServicesSet" Multiplicity="1" />
+    <End Role="Provides" Type="YoucalBokning.Store.ProvidesSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Provides">
+        <PropertyRef Name="ServicesId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="YoucalBokning" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="YoucalBokningContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookingSet" EntityType="YoucalBokning.Booking" />
+          <EntitySet Name="CompanySet" EntityType="YoucalBokning.Company" />
+          <AssociationSet Name="BookingCompany" Association="YoucalBokning.BookingCompany">
+            <End Role="Booking" EntitySet="BookingSet" />
+            <End Role="Company" EntitySet="CompanySet" />
+          </AssociationSet>
+          <EntitySet Name="ProvidesSet" EntityType="YoucalBokning.Provides" />
+          <AssociationSet Name="CompanyProvides" Association="YoucalBokning.CompanyProvides">
+            <End Role="Company" EntitySet="CompanySet" />
+            <End Role="Provides" EntitySet="ProvidesSet" />
+          </AssociationSet>
+          <EntitySet Name="ServicesSet" EntityType="YoucalBokning.Services" />
+          <AssociationSet Name="ServicesProvides" Association="YoucalBokning.ServicesProvides">
+            <End Role="Services" EntitySet="ServicesSet" />
+            <End Role="Provides" EntitySet="ProvidesSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" Nullable="false" />
+          <Property Name="UserPhone" Type="String" Nullable="false" />
+          <Property Name="Subject" Type="String" Nullable="false" />
+          <Property Name="StartTime" Type="String" Nullable="false" />
+          <Property Name="EndTime" Type="String" Nullable="false" />
+          <Property Name="Price" Type="String" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="YoucalBokning.BookingCompany" FromRole="Booking" ToRole="Company" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" />
+          <Property Name="Adress" Type="String" Nullable="false" />
+          <NavigationProperty Name="Booking" Relationship="YoucalBokning.BookingCompany" FromRole="Company" ToRole="Booking" />
+          <NavigationProperty Name="Provides" Relationship="YoucalBokning.CompanyProvides" FromRole="Company" ToRole="Provides" />
+        </EntityType>
+        <Association Name="BookingCompany">
+          <End Type="YoucalBokning.Booking" Role="Booking" Multiplicity="*" />
+          <End Type="YoucalBokning.Company" Role="Company" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Provides">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="ServicesId" />
+          </Key>
+          <NavigationProperty Name="Company" Relationship="YoucalBokning.CompanyProvides" FromRole="Provides" ToRole="Company" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Services" Relationship="YoucalBokning.ServicesProvides" FromRole="Provides" ToRole="Services" />
+          <Property Name="ServicesId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="CompanyProvides">
+          <End Type="YoucalBokning.Company" Role="Company" Multiplicity="1" />
+          <End Type="YoucalBokning.Provides" Role="Provides" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Provides">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" />
+          <NavigationProperty Name="Provides" Relationship="YoucalBokning.ServicesProvides" FromRole="Services" ToRole="Provides" />
+        </EntityType>
+        <Association Name="ServicesProvides">
+          <End Type="YoucalBokning.Services" Role="Services" Multiplicity="1" />
+          <End Type="YoucalBokning.Provides" Role="Provides" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Provides">
+              <PropertyRef Name="ServicesId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="YoucalBokningStoreContainer" CdmEntityContainer="YoucalBokningContainer">
+    <EntitySetMapping Name="BookingSet">
+      <EntityTypeMapping TypeName="IsTypeOf(YoucalBokning.Booking)">
+        <MappingFragment StoreEntitySet="BookingSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserPhone" ColumnName="UserPhone" />
+          <ScalarProperty Name="Subject" ColumnName="Subject" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompanySet">
+      <EntityTypeMapping TypeName="IsTypeOf(YoucalBokning.Company)">
+        <MappingFragment StoreEntitySet="CompanySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Adress" ColumnName="Adress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProvidesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(YoucalBokning.Provides)">
+        <MappingFragment StoreEntitySet="ProvidesSet">
+          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+          <ScalarProperty Name="ServicesId" ColumnName="ServicesId" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ServicesSet">
+      <EntityTypeMapping TypeName="IsTypeOf(YoucalBokning.Services)">
+        <MappingFragment StoreEntitySet="ServicesSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="BookingCompany" TypeName="YoucalBokning.BookingCompany" StoreEntitySet="BookingSet">
+      <EndProperty Name="Company">
+        <ScalarProperty Name="Id" ColumnName="Company_Id" />
+      </EndProperty>
+      <EndProperty Name="Booking">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
