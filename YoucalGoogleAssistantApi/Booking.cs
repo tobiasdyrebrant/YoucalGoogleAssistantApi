@@ -21,6 +21,7 @@ namespace YoucalGoogleAssistantApi
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string Price { get; set; }
+        public string userEmail { get; set; }
     
         public virtual Company Company { get; set; }
     }
