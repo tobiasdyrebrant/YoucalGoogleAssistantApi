@@ -131,6 +131,7 @@
           <Property Name="EndTime" Type="String" Nullable="false" />
           <Property Name="Price" Type="String" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="YoucalBokning.BookingCompany" FromRole="Booking" ToRole="Company" />
+          <Property Name="userEmail" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="Company">
           <Key>
