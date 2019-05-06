@@ -13,7 +13,7 @@ namespace YoucalGoogleAssistantApi.DAL
         public YoucalContext() : base("YoucalContext")
         {
         }
-
+        //tabeller som ska skapas upp i databasen
         public DbSet<Company> Companies { get; set; }
         public DbSet<Provide> Provides { get; set; }
         public DbSet<Service> Services { get; set; }

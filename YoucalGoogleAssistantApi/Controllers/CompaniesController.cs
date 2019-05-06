@@ -11,9 +11,9 @@ using YoucalGoogleAssistantApi.Models;
 
 namespace YoucalGoogleAssistantApi.Controllers
 {
-    public class CompaniesController : Controller
+    public class CompaniesController : BaseController
     {
-        private YoucalContext db = new YoucalContext();
+      
 
         // GET: Companies
         public ActionResult Index()
