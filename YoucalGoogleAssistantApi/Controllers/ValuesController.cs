@@ -51,30 +51,33 @@ namespace YoucalGoogleAssistantApi.Controllers
 
 
 
-            Booking booking = new Booking();
-            
 
             var foundcompanies = db.Companies.ToList();
-            
-
-            
-
-            //var hittatSpecifiktBolag = db.Companies.Where(x => x.Name == actualQuestion).Single();
 
             var antalBolag = foundcompanies.Count();
 
-          
 
+            var testar = "hello this is a message going out to all my fellow Americans. Haikyuu might have been too powerful for us to comprehend the extent of the aftermath it would wield us";
 
             for (int i = 0; i<= antalBolag; i++)
             {
-                if (actualQuestion.Contains(foundcompanies[i].ToString()))
+
+                var companyNameIndex = foundcompanies[i].Name;
+                if (testar.Contains(companyNameIndex)) //Byt ut testar mot actualQuestion för att få det i live versionen
                 {
-                    booking.Company = foundcompanies[i];
-                    
-                    
-                    db.Bookings.Add(booking);
-                    db.SaveChanges();
+                    var test = new Booking
+                    {
+                        Company = null,
+                        Email = "a@a.a",
+                        EndTime = Convert.ToDateTime("2019-12-13"),
+                        StartTime = Convert.ToDateTime("2019-12-13"),
+                        Phone = 999,
+                        Price = 1000,
+                        Username = "Ben10"
+                    }; //Tas bort i framtiden till när vi kan få ut all data vi behöver till dialogflow, new booking ska ske på annat ställe.
+
+                    db.Bookings.Add(test); // I framtiden spara till fält(?)
+                    db.SaveChanges(); // I framtiden ta bort
 
                 }
                 
