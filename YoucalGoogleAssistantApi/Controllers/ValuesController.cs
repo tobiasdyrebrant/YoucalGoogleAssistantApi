@@ -34,10 +34,10 @@ namespace YoucalGoogleAssistantApi.Controllers
         public dynamic Post([FromBody]WebhookRequest dialogflowRequest)
         {
             //Gäller Azure, går via dialogflow
-            var intentName = dialogflowRequest.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
-            var actualQuestion = dialogflowRequest.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
-            var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
-            var parameters = dialogflowRequest.QueryResult.Parameters;
+            //var intentName = dialogflowRequest.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
+            //var actualQuestion = dialogflowRequest.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
+            //var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
+            //var parameters = dialogflowRequest.QueryResult.Parameters;
 
             //Gäller local, kör via localDb
             var foundcompanies = db.Companies.ToList();
@@ -48,12 +48,13 @@ namespace YoucalGoogleAssistantApi.Controllers
             var company = "";
             var hasDate = false;
 
-            for (int i = 0; i <= antalBolag; i++)
+            for (int i = 0; i < antalBolag; i++)
             {
                 var companyNameIndex = foundcompanies[i].Name;
                 if (testar.Contains(companyNameIndex)) //Byt ut testar mot actualQuestion för att få det i live versionen
                 {
                     company = companyNameIndex;
+                    break;
                 }
             }
 
@@ -99,7 +100,7 @@ namespace YoucalGoogleAssistantApi.Controllers
             return Json(new
             {
 
-                fulfillmentText = testAnswer + " Is this for real?!?!?!",
+                fulfillmentText = /*testAnswer +*/ " Is this for real?!?!?!",
                 source = "Visual Studio",
 
 
