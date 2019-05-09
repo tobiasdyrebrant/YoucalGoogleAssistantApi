@@ -44,31 +44,19 @@ namespace YoucalGoogleAssistantApi.Controllers
             var antalBolag = foundcompanies.Count();
             var testar = "hello this is a message going out to all my fellow Americans. Haikyuu might have been too powerful for us to comprehend the extent of the aftermath it would wield us at 12/12";
 
+            //vad som krävs för en bokning, ett företag och ett datum
             var company = "";
+            var hasDate = false;
+
             for (int i = 0; i <= antalBolag; i++)
             {
                 var companyNameIndex = foundcompanies[i].Name;
                 if (testar.Contains(companyNameIndex)) //Byt ut testar mot actualQuestion för att få det i live versionen
                 {
-                    var test = new Booking
-                    {
-                        Company = null,
-                        Email = "a@a.a",
-                        EndTime = Convert.ToDateTime("2019-12-13"),
-                        StartTime = Convert.ToDateTime("2019-12-13"),
-                        Phone = 999,
-                        Price = 1000,
-                        Username = "Ben10"
-                    }; //Tas bort i framtiden till när vi kan få ut all data vi behöver till dialogflow, new booking ska ske på annat ställe.
-
-                    db.Bookings.Add(test); // I framtiden spara till fält(?)
-                    db.SaveChanges(); // I framtiden ta bort --- byt mellan connectionString beroende på om det gäller local eller Azure
-
+                    company = companyNameIndex;
                 }
-
             }
 
-            var hasDate = false;
             var whiteSpace = " ";
             DateTime dateTime = new DateTime();
             string[] inputText = testar.Split(whiteSpace.ToCharArray());//split on a whitespace
@@ -84,11 +72,29 @@ namespace YoucalGoogleAssistantApi.Controllers
                 }
                 catch (Exception ex)
                 {
-
+                    System.Console.WriteLine(ex);
                 }
             }
-            
-            
+
+
+            if(!company.IsNullOrWhiteSpace() && hasDate == true)
+            {
+                var companyId = db.Companies.Where(x => x.Name == company);
+                var test = new Booking
+                {
+                    Company = null,
+                    Email = "a@a.a",
+                    EndTime = Convert.ToDateTime("2019-12-13"),
+                    StartTime = Convert.ToDateTime("2019-12-13"),
+                    Phone = 999,
+                    Price = 1000,
+                    Username = "Ben10"
+                }; //Tas bort i framtiden till när vi kan få ut all data vi behöver till dialogflow, new booking ska ske på annat ställe.
+
+                //db.Bookings.Add(test); // I framtiden spara till fält(?)
+                //db.SaveChanges(); // I framtiden ta bort --- byt mellan connectionString beroende på om det gäller local eller Azure
+            }
+
 
             return Json(new
             {
@@ -100,12 +106,12 @@ namespace YoucalGoogleAssistantApi.Controllers
             });
         }
 
-        [Route("Test")]
-        [HttpPost]
-        public async Task<IHttpActionResult> Index()
-        {
-            return Ok("Json github push");
+        //[Route("Test")]
+        //[HttpPost]
+        //public async Task<IHttpActionResult> Index()
+        //{
+        //    return Ok("Json github push");
 
-        }
+        //}
     }
 }
