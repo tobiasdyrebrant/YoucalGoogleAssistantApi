@@ -46,17 +46,17 @@ namespace YoucalGoogleAssistantApi.Controllers
 
             //vad som krävs för en bokning, ett företag och ett datum
             var company = "";
-            var companyidxD = 0;
+            var cID = 0;
             var hasDate = false;
 
             for (int i = 0; i < antalBolag; i++)
             {
                 var companyNameIndex = foundcompanies[i].Name;
-                var companyIDIndex = foundcompanies[i].CompanyID;
+                
                 if (testar.Contains(companyNameIndex)) //Byt ut testar mot actualQuestion för att få det i live versionen
                 {
                     company = companyNameIndex;
-                    companyidxD = companyIDIndex;
+                    cID = foundcompanies[i].CompanyID;
                     break;
                 }
             }
@@ -84,7 +84,6 @@ namespace YoucalGoogleAssistantApi.Controllers
             if(!company.IsNullOrWhiteSpace() && hasDate == true)
             {
                 var companyId = db.Companies.Where(x => x.Name == company);
-                var cID = db.Companies.Where(x => x.CompanyID == companyidxD);
                 var test = new Booking
                 {
                     Company = null,
