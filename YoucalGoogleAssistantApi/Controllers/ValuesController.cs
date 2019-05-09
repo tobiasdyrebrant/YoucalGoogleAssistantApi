@@ -44,22 +44,22 @@ namespace YoucalGoogleAssistantApi.Controllers
         [Route("post")]
         public dynamic Post([FromBody]WebhookRequest dialogflowRequest)
         {
-            //var intentName = dialogflowRequest.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
-            //var actualQuestion = dialogflowRequest.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
-            //var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
-            //var parameters = dialogflowRequest.QueryResult.Parameters;
+            var intentName = dialogflowRequest.QueryResult.Intent.DisplayName; //hämtar ut specifik intent som callar post
+            var actualQuestion = dialogflowRequest.QueryResult.QueryText; //hämtar ut specifik fråga användaren ställer
+            var testAnswer = $"Dialogflow Request for intent '{intentName}' and question '{actualQuestion}'"; //testsvar för att se om vi kan få ut namn på intent och den frågan som ställts
+            var parameters = dialogflowRequest.QueryResult.Parameters;
+
+            
 
 
+            //var foundcompanies = db.Companies.ToList();
 
-
-            var foundcompanies = db.Companies.ToList();
-
-            var antalBolag = foundcompanies.Count();
+            //var antalBolag = foundcompanies.Count();
 
 
             var testar = "hello this is a message going out to all my fellow Americans. Haikyuu might have been too powerful for us to comprehend the extent of the aftermath it would wield us at 12/12";
 
-            //for (int i = 0; i<= antalBolag; i++)
+            //for (int i = 0; i <= antalBolag; i++)
             //{
 
             //    var companyNameIndex = foundcompanies[i].Name;
@@ -80,7 +80,7 @@ namespace YoucalGoogleAssistantApi.Controllers
             //        db.SaveChanges(); // I framtiden ta bort
 
             //    }
-                
+
             //}
 
             var hasDate = false;
@@ -217,8 +217,8 @@ namespace YoucalGoogleAssistantApi.Controllers
             return Json(new
             {
 
-                fulfillmentText = "Is this for real?!?!?!",
-                source = "Dialogflow",
+                fulfillmentText = testAnswer + " Is this for real?!?!?!",
+                source = "Visual Studio",
 
 
             });
