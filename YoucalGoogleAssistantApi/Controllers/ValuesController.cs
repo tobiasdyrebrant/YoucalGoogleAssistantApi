@@ -50,17 +50,22 @@ namespace YoucalGoogleAssistantApi.Controllers
             var hasDate = false;
             var cost = 0;
             var realEndTime = new DateTime(2019, 12, 1);
-
-            for (int i = 0; i < antalBolag; i++)
-            {
-                var companyNameIndex = foundcompanies[i].Name;
-                
-                if (testar.Contains(companyNameIndex)) //Byt ut testar mot actualQuestion för att få det i live versionen
+            try { 
+                for (int i = 0; i < antalBolag; i++)
                 {
-                    company = companyNameIndex;
-                    cID = foundcompanies[i].CompanyID;
-                    break;
+                    var companyNameIndex = foundcompanies[i].Name;
+                
+                    if (testar.Contains(companyNameIndex)) //Byt ut testar mot actualQuestion för att få det i live versionen
+                    {
+                        company = companyNameIndex;
+                        cID = foundcompanies[i].CompanyID;
+                        break;
+                    }
                 }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
             }
 
             var whiteSpace = " ";
@@ -78,7 +83,7 @@ namespace YoucalGoogleAssistantApi.Controllers
                 }
                 catch (Exception ex)
                 {
-                    System.Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.Message);
                 }
             }
 
@@ -147,7 +152,7 @@ namespace YoucalGoogleAssistantApi.Controllers
             {
                 return Json(new
                 {
-                    fulfillmentText = "Ops, seems like you're missing a valid company name. Mind doing that again but this time include the date and company as well?",
+                    fulfillmentText = "Ops, seems like you're missing a valid company name. Mind doing that again but this time include the company as well?",
                     source = "Visual Studio",
                 });
             }
