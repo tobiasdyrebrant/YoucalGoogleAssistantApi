@@ -49,6 +49,7 @@ namespace YoucalGoogleAssistantApi.Controllers
             var cID = 0;
             var hasDate = false;
             var cost = 0;
+            var realEndTime = new DateTime(2019, 12, 1);
 
             for (int i = 0; i < antalBolag; i++)
             {
@@ -71,7 +72,7 @@ namespace YoucalGoogleAssistantApi.Controllers
                 //Use the Parse() method
                 try
                 {
-                    dateTime = DateTime.Parse(text);
+                    dateTime = DateTime.Parse(text) + new TimeSpan(8, 0, 0);
                     hasDate = true;
                     break;//no need to execute/loop further if you have your date
                 }
@@ -82,7 +83,7 @@ namespace YoucalGoogleAssistantApi.Controllers
             }
 
 
-            if(!company.IsNullOrWhiteSpace() && hasDate == true)
+            if (!company.IsNullOrWhiteSpace() && hasDate == true)
             {
                 var companyId = db.Companies.Single(x => x.Name == company);
                 var serviceId = db.Provides.Single(x => x.CompanyID == companyId.CompanyID);
@@ -107,13 +108,15 @@ namespace YoucalGoogleAssistantApi.Controllers
                     endtime = new TimeSpan(0, 15, 0);
                     cost = 1000000;
                 }
-                
+
+                realEndTime = dateTime.Add(endtime);
+
                 var test = new Booking
                 {
                     Company = companyId,
                     Email = "a@a.a",
-                    EndTime = (dateTime.Date + endtime + new TimeSpan(8, 0, 0)),
-                    StartTime = (dateTime + new TimeSpan(8, 0, 0)),
+                    EndTime = realEndTime,
+                    StartTime = dateTime,
                     Phone = 999,
                     Service = serviceId.Service.Type,
                     Price = cost,
@@ -123,14 +126,35 @@ namespace YoucalGoogleAssistantApi.Controllers
                 db.Bookings.Add(test); // I framtiden spara till fält(?)
                 db.SaveChanges(); // I framtiden ta bort --- byt mellan connectionString beroende på om det gäller local eller Azure
 
-                
-
             }
-
+            else if (!company.IsNullOrWhiteSpace() && hasDate == false)
+            {
+                return Json(new
+                {
+                    fulfillmentText = "Ops, seems like you're missing a valid date there. Mind doing that again but this time include the date as well?",
+                    source = "Visual Studio",
+                });
+            }
+            else if (company.IsNullOrWhiteSpace() && hasDate == false)
+            {
+                return Json(new
+                {
+                    fulfillmentText = "Ops, seems like you're missing not only a valid date, but also a valid company name. Mind doing that again but this time include the date and company as well?",
+                    source = "Visual Studio",
+                });
+            }
+            else if (company.IsNullOrWhiteSpace() && hasDate == true)
+            {
+                return Json(new
+                {
+                    fulfillmentText = "Ops, seems like you're missing a valid company name. Mind doing that again but this time include the date and company as well?",
+                    source = "Visual Studio",
+                });
+            }
 
             return Json(new
             {
-                fulfillmentText = /*testAnswer +*/ " Is this for real?!?!?!",
+                fulfillmentText = "Your booking at " + company + " is set to start at " + dateTime + " and end at " + realEndTime + ". Is there anything else you would like to book?",
                 source = "Visual Studio",
 
 
