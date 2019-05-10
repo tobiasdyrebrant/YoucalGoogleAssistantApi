@@ -43,11 +43,12 @@ namespace YoucalGoogleAssistantApi.Controllers
             var foundcompanies = db.Companies.ToList();
             var antalBolag = foundcompanies.Count();
             var testar = "hello this is a message going out to all my fellow Americans. Haikyuu might have been too powerful for us to comprehend the extent of the aftermath it would wield us at 12/12";
-
+           
             //vad som krävs för en bokning, ett företag och ett datum
             var company = "";
             var cID = 0;
             var hasDate = false;
+            var cost = 0;
 
             for (int i = 0; i < antalBolag; i++)
             {
@@ -83,26 +84,52 @@ namespace YoucalGoogleAssistantApi.Controllers
 
             if(!company.IsNullOrWhiteSpace() && hasDate == true)
             {
-                var companyId = db.Companies.Where(x => x.Name == company);
+                var companyId = db.Companies.Single(x => x.Name == company);
+                var serviceId = db.Provides.Single(x => x.CompanyID == companyId.CompanyID);
+                var endtime = new TimeSpan();
+                if (serviceId.Service.Type.Equals("Webdevelopment"))
+                {
+                    endtime = new TimeSpan(12, 0, 0);
+                    cost = 6000;
+                }
+                else if (serviceId.Service.Type.Equals("Painting"))
+                {
+                    endtime = new TimeSpan(6, 0, 0);
+                    cost = 600;
+                }
+                else if (serviceId.Service.Type.Equals("Hairy"))
+                {
+                    endtime = new TimeSpan(0, 45, 0);
+                    cost = 450;
+                }
+                else if (serviceId.Service.Type.Equals("Sewerline"))
+                {
+                    endtime = new TimeSpan(0, 15, 0);
+                    cost = 1000000;
+                }
+                
                 var test = new Booking
                 {
-                    Company = null,
+                    Company = companyId,
                     Email = "a@a.a",
-                    EndTime = Convert.ToDateTime("2019-12-13"),
-                    StartTime = Convert.ToDateTime("2019-12-13"),
+                    EndTime = (dateTime.Date + endtime + new TimeSpan(8, 0, 0)),
+                    StartTime = (dateTime + new TimeSpan(8, 0, 0)),
                     Phone = 999,
-                    Price = 1000,
+                    Service = serviceId.Service.Type,
+                    Price = cost,
                     Username = "Ben10"
                 }; //Tas bort i framtiden till när vi kan få ut all data vi behöver till dialogflow, new booking ska ske på annat ställe.
 
-                //db.Bookings.Add(test); // I framtiden spara till fält(?)
-                //db.SaveChanges(); // I framtiden ta bort --- byt mellan connectionString beroende på om det gäller local eller Azure
+                db.Bookings.Add(test); // I framtiden spara till fält(?)
+                db.SaveChanges(); // I framtiden ta bort --- byt mellan connectionString beroende på om det gäller local eller Azure
+
+                
+
             }
 
 
             return Json(new
             {
-
                 fulfillmentText = /*testAnswer +*/ " Is this for real?!?!?!",
                 source = "Visual Studio",
 
