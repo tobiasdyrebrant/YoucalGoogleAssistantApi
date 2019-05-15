@@ -270,7 +270,7 @@ namespace YoucalGoogleAssistantApi.Controllers
                 {
                     return Json(new
                     {
-                        fulfillmentText = "Ops, seems like you're missing a valid date there. Mind doing that again but this time include the date as well?",
+                        fulfillmentText = "Woops, seems like you're missing a valid date there. Mind doing that again but this time include the date as well?",
                         source = "Visual Studio",
                     });
                 }
@@ -278,7 +278,7 @@ namespace YoucalGoogleAssistantApi.Controllers
                 {
                     return Json(new
                     {
-                        fulfillmentText = "Ops, seems like you're missing not only a valid date, but also a valid company name. Mind doing that again but this time include the date and company as well?",
+                        fulfillmentText = "Woops, seems like you're missing not only a valid date, but also a valid company name. Mind doing that again but this time include the date and company as well?",
                         source = "Visual Studio",
                     });
                 }
@@ -286,14 +286,14 @@ namespace YoucalGoogleAssistantApi.Controllers
                 {
                     return Json(new
                     {
-                        fulfillmentText = "Ops, seems like you're missing a valid company name. Mind doing that again but this time include the company as well?",
+                        fulfillmentText = "woops, seems like you're missing a valid company name. Mind doing that again but this time include the company as well?",
                         source = "Visual Studio",
                     });
                 }
 
                 return Json(new
                 {
-                    fulfillmentText = "Your booking at " + company + " is set to start at " + dateTime + " and end at " + realEndTime + ". Is there anything else you would like to book?",
+                    fulfillmentText = "Great, I've booked you in for an appointment at " + company + " which is set to start at " + dateTime + " and ends at " + realEndTime + ". Thank you for booking with "+@"Boka.se"+". Is there anything else you would like to book?",
                     source = "Visual Studio",
 
 
