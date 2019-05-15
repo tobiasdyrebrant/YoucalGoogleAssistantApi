@@ -264,7 +264,8 @@ namespace YoucalGoogleAssistantApi.Controllers
                         cost = 1000000;
                     }
 
-                    realEndTime = dateTime.Add(endtime);
+                    realEndTime = dateTime.Add(endtime).ToString("dd/MM/yyyy HH:mm");
+                    realStartTime = dateTime.ToString("dd/MM/yyyy HH:mm");
                 }
                 else if (!company.IsNullOrWhiteSpace() && hasDate == false)
                 {
@@ -293,7 +294,7 @@ namespace YoucalGoogleAssistantApi.Controllers
 
                 return Json(new
                 {
-                    fulfillmentText = "Great, I've booked you in for an appointment at " + company + " which is set to start at " + dateTime + " and ends at " + realEndTime + ". Thank you for booking with "+@"Boka.se"+". Is there anything else you would like to book?",
+                    fulfillmentText = "Great, I've booked you in for an appointment at " + company + " which is set to start at " + realStartTime + " and ends at " + realEndTime + ". Thank you for booking with "+@"Boka.se"+". Is there anything else you would like to book?",
                     source = "Visual Studio",
 
 
