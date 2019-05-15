@@ -203,6 +203,7 @@ namespace YoucalGoogleAssistantApi.Controllers
                 var company = "";
                 var hasDate = false;
                 var cost = 0;
+                var endTimeNoSec="";
                 var realEndTime = new DateTime();
                 try
                 {
@@ -264,8 +265,9 @@ namespace YoucalGoogleAssistantApi.Controllers
                         cost = 1000000;
                     }
 
-                    realEndTime = dateTime.Add(endtime).ToString("dd/MM/yyyy HH:mm");
-                    realStartTime = dateTime.ToString("dd/MM/yyyy HH:mm");
+                   endTimeNoSec = dateTime.Add(endtime).ToString("MM/dd/yyyy HH:mm");
+
+
                 }
                 else if (!company.IsNullOrWhiteSpace() && hasDate == false)
                 {
@@ -291,10 +293,11 @@ namespace YoucalGoogleAssistantApi.Controllers
                         source = "Visual Studio",
                     });
                 }
+                var realStartTime = dateTime.ToString("MM/dd/yyyy HH:mm");
 
                 return Json(new
                 {
-                    fulfillmentText = "Great, I've booked you in for an appointment at " + company + " which is set to start at " + realStartTime + " and ends at " + realEndTime + ". Thank you for booking with "+@"Boka.se"+". Is there anything else you would like to book?",
+                    fulfillmentText = "Great, I've booked you in for an appointment at " + company + " which is set to start at " + realStartTime + " and ends at " + endTimeNoSec+ ". That will be the grand total of  " +cost+ " Swedish crowns Thank you for booking with "+@"Boka.se"+". Is there anything else you would like to book?",
                     source = "Visual Studio",
 
 
