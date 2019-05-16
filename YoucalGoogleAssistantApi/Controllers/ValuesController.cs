@@ -192,10 +192,10 @@ namespace YoucalGoogleAssistantApi.Controllers
                 //Om den körs local, kör via localDb istället
                 var foundcompanies = new ArrayList
             {
-                "Peppes hairdresser",
-                "Mikes foodtruck",
-                "The repairman",
-                "MML delivery"
+                "hairdresser",
+                "bike repair",
+                "tech support",
+                "massage"
             };
                 var antalBolag = foundcompanies.Count;
 
@@ -297,7 +297,7 @@ namespace YoucalGoogleAssistantApi.Controllers
 
                 return Json(new
                 {
-                    fulfillmentText = "Great, I've booked you in for an appointment at " + company + " which is set to start at " + realStartTime + " and ends at " + endTimeNoSec+ ". That will be the grand total of  " +cost+ " Swedish crowns Thank you for booking with "+@"Boka.se"+". Is there anything else you would like to book?",
+                    fulfillmentText = "Great, I've booked you in for an appointment at " + company  + " which is set to start at " + realStartTime + " and ends at " + endTimeNoSec+ ". That will be the grand total of  " +cost+ " Swedish crowns Thank you for booking with "+@"Boka.se"+". Is there anything else you would like to book?",
                     source = "Visual Studio",
 
 
