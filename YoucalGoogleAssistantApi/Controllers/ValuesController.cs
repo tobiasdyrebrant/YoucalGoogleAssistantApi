@@ -244,22 +244,22 @@ namespace YoucalGoogleAssistantApi.Controllers
                 if (!company.IsNullOrWhiteSpace() && hasDate == true)
                 {
                     var endtime = new TimeSpan();
-                    if (company.Equals("Peppes hairdresser"))
+                    if (company.Equals("hairdresser"))
                     {
                         endtime = new TimeSpan(12, 0, 0);
                         cost = 6000;
                     }
-                    else if (company.Equals("Mikes foodtruck"))
+                    else if (company.Equals("bike repair"))
                     {
                         endtime = new TimeSpan(6, 0, 0);
                         cost = 600;
                     }
-                    else if (company.Equals("The repairman"))
+                    else if (company.Equals("tech support"))
                     {
                         endtime = new TimeSpan(0, 45, 0);
                         cost = 450;
                     }
-                    else if (company.Equals("MML delivery"))
+                    else if (company.Equals("massage"))
                     {
                         endtime = new TimeSpan(0, 15, 0);
                         cost = 1000000;
